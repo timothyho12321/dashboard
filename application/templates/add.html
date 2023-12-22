@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h2>Add expenses page</h2>
+<div class="card " style="width: 18rem;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+        <form action="" method="POST">
+            {{form.csrf_token()}}
+            
+            <fieldset class="form-group">
+                <h5 class="card-title">Expenses and Incomes</h5>
+                <p class="card-text">Fill in information</p>
+      
+                <div class="form-group">
+                    {{form.amount.label(class="form-control-label")}}
+                    {% if form.amount.errors %}
+                    {{form.amount(class="form-control form-control-sm is-invalid")}}
+
+                    {% for error in form.amount.errors %}
+                    <div class="invalid-feedback">
+                        <span>{{error}}</span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {{form.amount(class="form-control form-control-sm")}}
+
+                    {% endif %}
+                </div>
+                <div class="form-group mt-2">
+                    {{form.type.label(class="form-control-label")}}
+                    {% if form.type.errors %}
+                    {{form.type(class="form-control form-control-sm is-invalid")}}
+
+                    {% for error in form.type.errors %}
+                    <div class="invalid-feedback">
+                        <span>{{error}}</span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {{form.type(class="form-control form-control-sm")}}
+
+                    {% endif %}
+                </div>
+
+                <div class="form-group mt-2">
+                    {{form.category.label(class="form-control-label")}}
+                    {% if form.category.errors %}
+                    {{form.type(class="form-control form-control-sm is-invalid")}}
+
+                    {% for error in form.category.errors %}
+                    <div class="invalid-feedback">
+                        <span>{{error}}</span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {{form.category(class="form-control form-control-sm")}}
+
+                    {% endif %}
+                </div>
+
+                <div class="form-group border-bottom  pb-3 mt-2">
+                    {{form.submit(class="btn btn-outline-info")}}
+                </div>
+
+
+            </fieldset>
+        </form>
+      
+    </div>
+  </div>
+
+
+
+
+{% endblock %}

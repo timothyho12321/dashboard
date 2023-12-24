@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="col-xs-10 col-sm-6 col-md-6">
-    <div class="card card-style mb-2">
+    <div class="card card-style mb-2 mt-2">
         <div class="card-body">
             <div class="chart-container" style="position: relative;">
                 <canvas id="income_vs_expense"></canvas>
@@ -15,26 +15,45 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       
 <script>
-  const ctx = document.getElementById('income_vs_expense');
+   let income_expenses = JSON.parse({{ income_vs_expenses | tojson }});
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
+    let income_vs_expense_chart = new Chart(income_vs_expense, {
+            type: 'pie',
+            data: {
+            labels: ['expense', 'income'],
+                datasets: [{
+                    label: "Income Vs Expenses",
+                    data: income_expenses,
+                    backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
+                        '#B276B2', '#E16851', '#FB8267'],
+
+                    borderWidth: 1,
+                    hoverBorderColor: "black",
+                    hoverBorderWidth: 2,
+                    hoverBackgroundColor: 'rgba(154, 245, 140)',
+                    pointHoverRadius: 5
+                }],
+            },
+            options: {
+                    title: {
+                        display: true,
+                            text: "Income Vs Expenses",
+                                fontSize: 20,
+                    },
+                    legend: {
+                        position: "right",
+                            labels: {
+                            fontColor: "gray"
+                        },
+                        display: true,
+                    },
+
+                    elements: {
+                        hitRadius: 3,
+                    }
+            }
+        })
+
 </script>
 {% endblock %}
 

@@ -61,7 +61,7 @@ def edit(entry_id):
     form= UserInputForm(obj=entry)
     if form.validate_on_submit():
 
-        # entry.date = form.date.data
+        entry.date = form.date.data
         entry.type = form.type.data
         entry.category = form.category.data
         entry.amount = form.amount.data

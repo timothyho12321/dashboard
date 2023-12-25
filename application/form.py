@@ -15,4 +15,4 @@ class UserInputForm(FlaskForm):
     
     amount = IntegerField('Amount',validators=[DataRequired()])
 
-    submit= SubmitField("See Report")
+    submit= SubmitField("Submit Report")

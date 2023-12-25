@@ -1,9 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
 
+<style>
+.title-heading {
+    color: darkgreen;
+}
+</style>
+
 <div class="col-sm-10 ml-auto mr-auto">
 
-    <h2>Transaction History</h2>
+    <h2 class="title-heading">Transaction History</h2>
     <table class="table">
         <thead class="thead-dark">
           <tr>
@@ -12,6 +18,7 @@
             <th scope="col">Type</th>
             <th scope="col">Category</th>
             <th scope="col">Amount</th>
+            <th scope="col">Edit</th>
             <th scope="col">Delete</th>
           </tr>
         </thead>
@@ -23,6 +30,7 @@
                 <td>{{entry.type}}</td>
                 <td>{{entry.category}}</td>
                 <td>{{entry.amount}}</td>
+                <td><a href="{{url_for('edit', entry_id=entry.id )}}" class="btn btn-outline-success btn-sm">Edit</a></td>
                  <td><a href="{{url_for('delete', entry_id=entry.id )}}" class="btn btn-outline-danger btn-sm">Delete</a></td>
             
             </tr>

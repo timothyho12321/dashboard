@@ -38,12 +38,25 @@ def dashboard():
         dates_labels.append(date.strftime("%m-%d-%Y"))
 
 
+    category_comparison = db.session.query(db.func.sum(IncomeExpense.amount), IncomeExpense.category).group_by(IncomeExpense.category).order_by(IncomeExpense.category).all()
+
+    # Extract data for the radar chart
+    categories = []
+    total_amounts = []
+
+    for amount, category in category_comparison:
+        categories.append(category)
+        total_amounts.append(amount)
+
+
    
     return render_template('dashboard.html',
                            income_vs_expenses=json.dumps(income_expense),
                            over_time_expenditure=json.dumps(over_time_expenditure),
                            dates_labels=json.dumps(dates_labels),
-                           category_spend = json.dumps(income_category))
+                           category_spend = json.dumps(income_category),
+                           categories=json.dumps(categories),
+                           totalAmounts=json.dumps(total_amounts))
 
 
 @app.route("/dashboard_plotly")

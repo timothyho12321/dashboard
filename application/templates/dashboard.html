@@ -1,5 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
+
+<style>
+    .title-heading {
+        color: orange;
+    }
+</style>
+
+<div class="d-flex col-md-12 justify-content-center">
+    <h2 class=" text-center title-heading">ChartJS Dashboard</h2>
+</div>
+
+
 <div class="col-xs-10 col-sm-6 col-md-6">
     <div class="card card-style mb-2 mt-2">
         <div class="card-body">
@@ -25,6 +37,16 @@
         <div class="card-body">
             <div class="chart-container" style="position: relative;">
                 <canvas id="category_chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2 mt-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <canvas id="radar_chart"></canvas>
             </div>
         </div>
     </div>
@@ -87,7 +109,7 @@
         data: {
             labels: ['investment', 'rent', 'salary','side_hustle'],
             datasets:[{
-                label: "Income Categories",
+                label: "All Categories",
                 data: categorical_data,
                 backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
                     '#B276B2', '#E16851', '#FB8267'],
@@ -102,7 +124,7 @@
         options:{
             title: {
                 display: true, 
-                text: "Income Categories",
+                text: "All Categories",
                 fontSize: 18
             },
             legend:{
@@ -146,6 +168,36 @@
             }
         }
 
+    });
+
+    let categories = JSON.parse({{ categories | tojson }});
+    let totalAmounts = JSON.parse({{ totalAmounts | tojson }});
+
+    // Get the canvas element
+    let ctx = document.getElementById('radar_chart').getContext('2d');
+
+    // Create a radar chart
+    let radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: categories,
+            datasets: [{
+                label: 'Total Amount',
+                data: totalAmounts,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                pointRadius: 5,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    suggestedMin: 0
+                }
+            }
+        }
     });
 
 </script>

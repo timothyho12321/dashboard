@@ -11,6 +11,7 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     {% if title %}
         <title>ExpenseApp - {{ title }}</title>
@@ -33,7 +34,8 @@
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav ml-auto mr-3">
                                 <a class="nav-item nav-link" href="{{ url_for('add_expense') }}">Add</a>
-                                <a class="nav-item nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                                <a class="nav-item nav-link" href="{{ url_for('dashboard_plotly') }}">Dashboard Plotly</a>
+                                <a class="nav-item nav-link" href="{{ url_for('dashboard') }}">Dashboard ChartJS</a>
                             </div>
                         </div>
                     </nav>

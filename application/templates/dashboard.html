@@ -128,14 +128,23 @@
         {
             labels: dates,
             datasets: [{
-                label: "Expenses over time",
+                label: "Transaction over time",
                 data: amounts,
                 fill:false,
                 borderColor: "rgb(90,180,170)",
                 lineTension: 0.1
             }]
         },
-        options:{}
+        options:{
+                scales: {
+                y: {
+                    ticks: {
+                        min: Math.min(...amounts),
+                        max: Math.max(...amounts)
+                    }
+                }
+            }
+        }
 
     });
 

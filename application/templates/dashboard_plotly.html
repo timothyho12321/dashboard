@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+    .title-heading {
+        color: silver;
+    }
+</style>
+
+<div class="d-flex col-md-12 justify-content-center">
+    <h2 class=" text-center title-heading">Dash Plotly dashboard</h2>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2 mt-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <div id="pieChartContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2 mt-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <div id="lineChartContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2 mt-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <div id="treeMapContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2 mt-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <div id="barChartContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% block javascript %}
+
+      
+<script>
+   
+     // Parse the JSON data
+     var pieChartJSON = {{ pieChartJSON | safe }};
+        
+    // Render the Plotly chart
+    Plotly.newPlot('pieChartContainer', pieChartJSON);
+
+    
+    // Parse the JSON data for the Line Chart
+    let lineChartJSON = {{ lineChartJSON | safe }};
+    // Render the Line Chart
+    Plotly.newPlot('lineChartContainer', lineChartJSON);
+
+    // Parse the JSON data for the Line Chart
+    let treemapChartJSON = {{ treemapChartJSON | safe }};
+    // Render the Fake Treemap Chart
+    Plotly.newPlot('treeMapContainer', treemapChartJSON);
+
+    // Parse the JSON data for the Bar Chart
+    let barChartJSON = {{ barChartJSON | safe }};
+    // Render the Bar Chart
+    Plotly.newPlot('barChartContainer', barChartJSON);
+
+</script>
+{% endblock %}
+
+{% endblock %}

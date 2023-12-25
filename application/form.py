@@ -19,9 +19,9 @@ class UserInputForm(FlaskForm):
 
     submit= SubmitField("Submit Report")
 
-    def validate_amount(self,field):
-        if self.type.data == 'income' and field.data<0:
-            raise ValidationError('Amount has to be postive for the income type.')
-        elif self.type.data == 'expense' and field.data>0:
-            raise ValidationError('Amount has to be negative for the expense type.')
+    # def validate_amount(self,field):
+    #     if self.type.data == 'income' and field.data<0:
+    #         raise ValidationError('Amount has to be postive for the income type.')
+    #     elif self.type.data == 'expense' and field.data>0:
+    #         raise ValidationError('Amount has to be negative for the expense type.')
     

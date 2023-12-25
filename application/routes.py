@@ -4,6 +4,11 @@ from application.form import UserInputForm
 from application.models import IncomeExpense
 import json
 
+import plotly
+import plotly.express as px
+import pandas as pd
+
+
 @app.route("/", methods=["GET"])
 def index():
     entries = IncomeExpense.query.order_by(IncomeExpense.date.desc()).all()
@@ -39,6 +44,51 @@ def dashboard():
                            over_time_expenditure=json.dumps(over_time_expenditure),
                            dates_labels=json.dumps(dates_labels),
                            category_spend = json.dumps(income_category))
+
+
+@app.route("/dashboard_plotly")
+def dashboard_plotly():
+    
+    income_vs_expense = db.session.query(db.func.sum(IncomeExpense.amount), IncomeExpense.type).group_by(IncomeExpense.type).order_by(IncomeExpense.type).all()
+
+    # Extract data for the pie chart
+    labels = [type for _, type in income_vs_expense]
+    values = [total_amount for total_amount, _ in income_vs_expense]
+
+    # Create a pie chart using Plotly Express
+    fig = px.pie(names=labels, values=values, title="Income vs Expense Pie Chart")
+
+    #Treemap
+     # Query to get total income and expense for each category
+    category_comparison = db.session.query(db.func.sum(IncomeExpense.amount), IncomeExpense.category, IncomeExpense.type).group_by(IncomeExpense.category, IncomeExpense.type).all()
+
+    # Extract data for the treemap chart
+    df = pd.DataFrame(category_comparison, columns=['amount', 'category', 'type'])
+
+
+    
+    # Chart 2: Line chart showing cumulative income and expense over time
+    line_chart = px.line(x=[entry.date for entry in IncomeExpense.query.order_by(IncomeExpense.date)], 
+                         y=[entry.amount if entry.type == 'income' else -entry.amount for entry in IncomeExpense.query.order_by(IncomeExpense.date)],
+                         labels={'x': 'Date', 'y': 'Cumulative Amount'}, title="Cumulative Income and Expense Over Time")
+
+
+
+    # Create a Treemap chart
+    treemap_chart = px.treemap(df, path=['type', 'category'], values='amount', title='Income and Expense by Category')
+
+    # Create a Bar Chart with two sub-sections
+    bar_chart = px.bar(df, x='category', y='amount', color='type', barmode='group', title='Income and Expense by Category')
+
+    # Convert the Plotly figure to JSON
+    pieChartJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    lineChartJSON = json.dumps(line_chart, cls=plotly.utils.PlotlyJSONEncoder)
+    treemapChartJSON = json.dumps(treemap_chart, cls=plotly.utils.PlotlyJSONEncoder)
+    barChartJSON = json.dumps(bar_chart, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('dashboard_plotly.html', pieChartJSON=pieChartJSON, lineChartJSON=lineChartJSON , 
+                           treemapChartJSON=treemapChartJSON, barChartJSON=barChartJSON)
+
 
 @app.route("/add", methods =["GET", "POST"])
 def add_expense():
